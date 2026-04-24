@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jasmine Kaur — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #faf7f2;
+    --ink: #1a1714;
+    --rose: #c4736a;
+    --rose-light: #e8aea8;
+    --muted: #7a6f6a;
+    --card-bg: #fff;
+    --border: #e8e0d8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5vw;
+    background: rgba(250,247,242,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; font-size: 0.82rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 10rem 5vw 6rem;
+    gap: 4rem;
+  }
+  .hero-text { animation: fadeUp 0.9s ease both; }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--rose); border: 1px solid var(--rose-light);
+    padding: 0.3rem 0.9rem; border-radius: 2rem; margin-bottom: 1.6rem;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.2rem;
+  }
+  .hero-name em { font-style: italic; color: var(--rose); }
+  .hero-desc {
+    font-size: 1rem; line-height: 1.75; color: var(--muted);
+    max-width: 44ch; margin-bottom: 2.4rem;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--rose); color: #fff;
+    padding: 0.75rem 1.8rem; border-radius: 2rem;
+    text-decoration: none; font-size: 0.85rem; letter-spacing: 0.06em;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #b35f57; transform: translateY(-2px); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--rose); color: var(--rose);
+    padding: 0.75rem 1.8rem; border-radius: 2rem;
+    text-decoration: none; font-size: 0.85rem; letter-spacing: 0.06em;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { background: var(--rose); color: #fff; transform: translateY(-2px); }
+
+  .hero-photo-wrap {
+    display: flex; justify-content: center; align-items: center;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-photo-frame {
+    position: relative;
+    width: clamp(260px, 30vw, 420px);
+    aspect-ratio: 3/4;
+  }
+  .hero-photo-frame::before {
+    content: '';
+    position: absolute; inset: -12px;
+    border: 1px solid var(--rose-light);
+    border-radius: 50% 40% 50% 40%;
+    animation: spin 18s linear infinite;
+  }
+  .hero-photo-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 48% 52% 46% 54% / 44% 44% 56% 56%;
+    display: block;
+    box-shadow: 0 24px 60px rgba(196,115,106,0.18);
+  }
+  .hero-badge {
+    position: absolute; bottom: -16px; right: -16px;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 0.8rem 1.2rem;
+    font-size: 0.78rem; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+    text-align: center;
+  }
+  .hero-badge strong { display: block; font-size: 1.4rem; color: var(--rose); font-family: 'Cormorant Garamond', serif; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 5vw; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300; margin-bottom: 3rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--ink); color: var(--cream); }
+  #skills .section-label { color: var(--rose-light); }
+  #skills .section-title { color: var(--cream); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
+  .skill-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 1rem; padding: 1.4rem 1.6rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { background: rgba(196,115,106,0.15); transform: translateY(-3px); }
+  .skill-card h4 { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rose-light); margin-bottom: 0.6rem; }
+  .skill-card p { font-size: 0.9rem; line-height: 1.6; color: rgba(250,247,242,0.75); }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1.4rem; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(196,115,106,0.14); }
+  .project-img {
+    width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: top;
+    display: block;
+  }
+  .project-img-placeholder {
+    width: 100%; aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #f0e8e0, #e8d8cc);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; color: var(--rose-light);
+  }
+  .project-body { padding: 1.6rem; }
+  .project-tag {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.5rem; display: block;
+  }
+  .project-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; margin-bottom: 0.7rem;
+  }
+  .project-body p { font-size: 0.87rem; line-height: 1.7; color: var(--muted); margin-bottom: 1rem; }
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .tech-pill {
+    font-size: 0.72rem; padding: 0.22rem 0.75rem; border-radius: 2rem;
+    background: #f5eeea; color: var(--rose); border: 1px solid var(--rose-light);
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: #fff; }
+  .edu-grid { display: grid; gap: 1.5rem; }
+  .edu-card {
+    border: 1px solid var(--border); border-radius: 1.2rem;
+    padding: 1.8rem 2rem; display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 1rem;
+    transition: box-shadow 0.2s;
+  }
+  .edu-card:hover { box-shadow: 0 8px 28px rgba(196,115,106,0.1); }
+  .edu-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .edu-card p { font-size: 0.87rem; color: var(--muted); }
+  .edu-meta { text-align: right; flex-shrink: 0; }
+  .edu-meta span { font-size: 0.78rem; color: var(--muted); display: block; }
+  .cgpa { font-size: 1.6rem; font-family: 'Cormorant Garamond', serif; color: var(--rose); font-weight: 600; }
+
+  /* ── ACHIEVEMENTS ── */
+  .achieve-list { list-style: none; display: grid; gap: 1rem; max-width: 700px; }
+  .achieve-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.2rem 1.6rem; border-radius: 1rem;
+    background: #fff; border: 1px solid var(--border);
+  }
+  .achieve-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .achieve-list li p { font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+  .achieve-list li strong { color: var(--ink); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--ink); color: var(--cream); text-align: center; }
+  #contact .section-label { color: var(--rose-light); }
+  #contact .section-title { color: var(--cream); margin-bottom: 1rem; }
+  #contact p { color: rgba(250,247,242,0.6); margin-bottom: 2.4rem; font-size: 1rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0f0d0b; color: rgba(250,247,242,0.35);
+    text-align: center; padding: 1.6rem; font-size: 0.78rem; letter-spacing: 0.06em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; text-align: center; padding-top: 8rem; }
+    .hero-text { order: 2; }
+    .hero-photo-wrap { order: 1; }
+    .hero-photo-frame { width: min(260px, 70vw); }
+    .hero-desc { margin: 0 auto 2rem; }
+    .hero-ctas { justify-content: center; }
+    nav { padding: 1rem 4vw; }
+    .nav-links { gap: 1.2rem; }
+    .edu-card { flex-direction: column; }
+    .edu-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">JK</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" id="about">
+  <div class="hero-text">
+    <span class="hero-tag">B.Tech CST · Manav Rachna University</span>
+    <h1 class="hero-name">Hi, I'm<br><em>Jasmine Kaur</em></h1>
+    <p class="hero-desc">
+      A passionate Computer Science student with a knack for web development and a love for clean, user-friendly interfaces. Currently building skills in Data Structures, Algorithms, and Machine Learning.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View Projects ↓</a>
+      <a href="mailto:jasmine.k1506@gmail.com" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <img src="JK_PIC.jpeg" alt="Jasmine Kaur" />
+      <div class="hero-badge">
+        <strong>8.74</strong>
+        Current CGPA
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">What I Know</p>
+  <h2 class="section-title">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h4>Languages</h4>
+      <p>C, Python, Basic Java</p>
+    </div>
+    <div class="skill-card">
+      <h4>Web Technologies</h4>
+      <p>HTML5, CSS3, JavaScript, DOM Manipulation</p>
+    </div>
+    <div class="skill-card">
+      <h4>Programming Concepts</h4>
+      <p>Object Oriented Programming, Data Structures, Algorithms</p>
+    </div>
+    <div class="skill-card">
+      <h4>Areas of Interest</h4>
+      <p>Web Development, Machine Learning</p>
+    </div>
+    <div class="skill-card">
+      <h4>Tools & APIs</h4>
+      <p>NewsAPI, Git (beginner)</p>
+    </div>
+    <div class="skill-card">
+      <h4>Certifications</h4>
+      <p>Namaste DSA by Akshay Saini</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">My Work</p>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
+
+    <!-- FabCloset -->
+    <div class="project-card reveal">
+      <img class="project-img" src="1777007918498_Screenshot__1024_.png" alt="FabCloset Fashion Website" />
+      <div class="project-body">
+        <span class="project-tag">Web Development</span>
+        <h3>FabCloset — Fashion Website</h3>
+        <p>Designed and developed a fully responsive fashion e-commerce website. Includes a Home page with brand intro, a Gallery page with a 3-column image layout, a Products page, and a Contact form — all styled with modern UI design principles.</p>
+        <div class="tech-pills">
+          <span class="tech-pill">HTML5</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">DOM Manipulation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- North India Trails -->
+    <div class="project-card reveal">
+      <img class="project-img" src="1777007973631_Screenshot__1025_.png" alt="North India Trails Website" />
+      <div class="project-body">
+        <span class="project-tag">Hackathon Project</span>
+        <h3>North India Trails — Travel Website</h3>
+        <p>Built during a university hackathon. A multi-page travel guide with a budget-based hotel suggestion feature and an interactive Indian political map that displays tourist destinations by state.</p>
+        <div class="tech-pills">
+          <span class="tech-pill">HTML</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- News API -->
+    <div class="project-card reveal">
+      <div class="project-img-placeholder">📰</div>
+      <div class="project-body">
+        <span class="project-tag">Python Application</span>
+        <h3>News API — Python App</h3>
+        <p>A Python application that fetches and displays live news articles using the NewsAPI. Users can filter content by selecting topics of interest, making it a personalized news reader.</p>
+        <div class="tech-pills">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">NewsAPI</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Academic Background</p>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div>
+        <h3>Manav Rachna University</h3>
+        <p>B.Tech in Computer Science and Technology &nbsp;·&nbsp; 2nd Year</p>
+      </div>
+      <div class="edu-meta">
+        <span>July 2024 – Present</span>
+        <span class="cgpa">8.74</span>
+        <span>CGPA</span>
+      </div>
+    </div>
+    <div class="edu-card reveal">
+      <div>
+        <h3>Aravali International School</h3>
+        <p>Class 12 — 90.4%</p>
+        <p>Class 10 — 96%</p>
+      </div>
+      <div class="edu-meta">
+        <span class="cgpa">96%</span>
+        <span>Class 10</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <p class="section-label">Recognition</p>
+  <h2 class="section-title">Awards & Achievements</h2>
+  <ul class="achieve-list">
+    <li>
+      <span class="achieve-icon">🏆</span>
+      <div><p><strong>Certificate of Academic Excellence – Dean's List</strong><br>Awarded for outstanding academic performance (January – June 2025).</p></div>
+    </li>
+    <li>
+      <span class="achieve-icon">🌿</span>
+      <div><p><strong>Social Internship – SHEOWS</strong><br>Completed an internship at Saint Hardyal Educational and Orphan Welfare Society, contributing to social welfare initiatives.</p></div>
+    </li>
+    <li>
+      <span class="achieve-icon">💻</span>
+      <div><p><strong>Namaste DSA – Certification</strong><br>Completed the acclaimed DSA course by Akshay Saini, deepening understanding of Data Structures and Algorithms.</p></div>
+    </li>
+  </ul>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Let's Connect</p>
+  <h2 class="section-title">Get In Touch</h2>
+  <p>I'm open to opportunities, collaborations, or just a friendly chat about tech!</p>
+  <div class="contact-links">
+    <a href="mailto:jasmine.k1506@gmail.com" class="btn-primary">✉️ jasmine.k1506@gmail.com</a>
+    <a href="https://www.linkedin.com/in/jasmine-kaur-300533308/" target="_blank" class="btn-outline">LinkedIn ↗</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Jasmine Kaur &nbsp;·&nbsp; Designed with care</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 120);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
